@@ -14,6 +14,8 @@ class Request<T> {
 
   final Decoder<T>? decoder;
 
+  final DecoderMode decoderMode;
+
   /// The Http Method from this [Request]
   /// ex: `GET`,`POST`,`PUT`,`DELETE`
   final String method;
@@ -44,6 +46,7 @@ class Request<T> {
     required this.files,
     required this.persistentConnection,
     required this.decoder,
+    required this.decoderMode,
   });
 
   factory Request({
@@ -57,6 +60,7 @@ class Request<T> {
     FormData? files,
     bool persistentConnection = true,
     Decoder<T>? decoder,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
   }) {
     if (followRedirects) {
       assert(maxRedirects > 0);
@@ -72,6 +76,7 @@ class Request<T> {
       files: files,
       persistentConnection: persistentConnection,
       decoder: decoder,
+      decoderMode: decoderMode,
     );
   }
 
@@ -86,6 +91,7 @@ class Request<T> {
     FormData? files,
     bool persistentConnection = true,
     Decoder<T>? decoder,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
     bool appendHeader = true,
   }) {
     if (followRedirects) {
@@ -108,6 +114,7 @@ class Request<T> {
       files: files,
       persistentConnection: persistentConnection,
       decoder: decoder,
+      decoderMode: decoderMode,
     );
   }
 }

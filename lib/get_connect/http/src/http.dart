@@ -17,6 +17,21 @@ typedef Decoder<T> = T Function(dynamic data);
 
 typedef Progress = Function(double percent);
 
+enum DecoderMode {
+  /// The response-body should always be decoded and if the [Decoder] fails,
+  /// an error is always thrown
+  ALWAYS,
+
+  /// The response-body should always be decoded and if the [Decoder] fails,
+  /// an error is thrown only if the request was successful, otherwise the
+  /// body will be set to null
+  TRY_ON_ERROR,
+
+  /// The response-body should only be decoded if the request was successful
+  /// and if the [Decoder] fails, an error is always thrown
+  SUCCESS_ONLY,
+}
+
 class GetHttpClient {
   String userAgent;
   String? baseUrl;
@@ -96,6 +111,7 @@ class GetHttpClient {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
+    DecoderMode decoderMode,
   ) async {
     List<int>? bodyBytes;
     Stream<List<int>>? bodyStream;
@@ -155,6 +171,7 @@ class GetHttpClient {
       followRedirects: followRedirects,
       maxRedirects: maxRedirects,
       decoder: decoder,
+      decoderMode: decoderMode,
     );
   }
 
@@ -257,6 +274,7 @@ class GetHttpClient {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode,
   ) {
     final headers = <String, String>{};
     _setSimpleHeaders(headers, contentType);
@@ -267,6 +285,7 @@ class GetHttpClient {
       url: uri,
       headers: headers,
       decoder: decoder ?? (defaultDecoder as Decoder<T>?),
+      decoderMode: decoderMode,
       contentLength: 0,
     ));
   }
@@ -279,6 +298,7 @@ class GetHttpClient {
     required Map<String, dynamic>? query,
     Decoder<T>? decoder,
     required Progress? uploadProgress,
+    required DecoderMode decoderMode,
   }) {
     return _requestWithBody<T>(
       url,
@@ -288,6 +308,7 @@ class GetHttpClient {
       query,
       decoder ?? (defaultDecoder as Decoder<T>?),
       uploadProgress,
+      decoderMode,
     );
   }
 
@@ -296,6 +317,7 @@ class GetHttpClient {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode,
   ) {
     final headers = <String, String>{};
     _setSimpleHeaders(headers, contentType);
@@ -306,6 +328,7 @@ class GetHttpClient {
       url: uri,
       headers: headers,
       decoder: decoder ?? (defaultDecoder as Decoder<T>?),
+      decoderMode: decoderMode,
     );
   }
 
@@ -317,6 +340,7 @@ class GetHttpClient {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
     // List<MultipartFile> files,
   }) async {
     try {
@@ -329,6 +353,7 @@ class GetHttpClient {
           query: query,
           decoder: decoder,
           uploadProgress: uploadProgress,
+          decoderMode: decoderMode,
         ),
         headers: headers,
       );
@@ -351,6 +376,7 @@ class GetHttpClient {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
     // List<MultipartFile> files,
   }) async {
     try {
@@ -363,6 +389,7 @@ class GetHttpClient {
           query: query,
           decoder: decoder,
           uploadProgress: uploadProgress,
+          decoderMode: decoderMode,
         ),
         headers: headers,
       );
@@ -386,6 +413,7 @@ class GetHttpClient {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
   }) async {
     try {
       var response = await _performRequest<T>(
@@ -397,6 +425,7 @@ class GetHttpClient {
           body: body,
           decoder: decoder,
           uploadProgress: uploadProgress,
+          decoderMode: decoderMode,
         ),
         headers: headers,
       );
@@ -419,6 +448,7 @@ class GetHttpClient {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
   }) async {
     try {
       var response = await _performRequest<T>(
@@ -430,6 +460,7 @@ class GetHttpClient {
           body: body,
           decoder: decoder,
           uploadProgress: uploadProgress,
+          decoderMode: decoderMode,
         ),
         headers: headers,
       );
@@ -450,10 +481,11 @@ class GetHttpClient {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
   }) async {
     try {
       var response = await _performRequest<T>(
-        () => _get<T>(url, contentType, query, decoder),
+        () => _get<T>(url, contentType, query, decoder, decoderMode),
         headers: headers,
       );
       return response;
@@ -534,10 +566,11 @@ class GetHttpClient {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
   }) async {
     try {
       var response = await _performRequest<T>(
-        () async => _delete<T>(url, contentType, query, decoder),
+        () async => _delete<T>(url, contentType, query, decoder, decoderMode),
         headers: headers,
       );
       return response;

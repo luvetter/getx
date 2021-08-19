@@ -5,6 +5,7 @@ import '../../certificates/certificates.dart';
 import '../../exceptions/exceptions.dart';
 import '../../request/request.dart';
 import '../../response/response.dart';
+import '../../status/http_status.dart';
 import '../interface/request_base.dart';
 import '../utils/body_decoder.dart';
 
@@ -61,6 +62,7 @@ class HttpRequestImpl extends HttpRequestBase {
         request,
         stringBody,
         response.headers.contentType?.mimeType,
+        HttpStatus(response.statusCode),
       );
 
       return Response(

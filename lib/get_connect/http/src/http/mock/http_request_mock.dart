@@ -30,6 +30,7 @@ class MockClient extends HttpRequestBase {
       request,
       stringBody,
       mimeType,
+      response.status,
     );
     return Response(
       headers: response.headers,

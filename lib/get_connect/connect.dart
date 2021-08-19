@@ -22,6 +22,7 @@ abstract class GetConnectInterface with GetLifeCycleBase {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode,
   });
 
   Future<Response<T>> request<T>(
@@ -32,6 +33,7 @@ abstract class GetConnectInterface with GetLifeCycleBase {
     Map<String, String>? headers,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode,
   });
 
   Future<Response<T>> post<T>(
@@ -41,6 +43,7 @@ abstract class GetConnectInterface with GetLifeCycleBase {
     Map<String, String>? headers,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode,
   });
 
   Future<Response<T>> put<T>(
@@ -50,6 +53,7 @@ abstract class GetConnectInterface with GetLifeCycleBase {
     Map<String, String>? headers,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode,
   });
 
   Future<Response<T>> delete<T>(
@@ -58,6 +62,7 @@ abstract class GetConnectInterface with GetLifeCycleBase {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode,
   });
 
   Future<Response<T>> patch<T>(
@@ -67,6 +72,7 @@ abstract class GetConnectInterface with GetLifeCycleBase {
     Map<String, String>? headers,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode,
     Progress? uploadProgress,
   });
 
@@ -143,6 +149,7 @@ class GetConnect extends GetConnectInterface {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
   }) {
     _checkIfDisposed();
     return httpClient.get<T>(
@@ -151,6 +158,7 @@ class GetConnect extends GetConnectInterface {
       contentType: contentType,
       query: query,
       decoder: decoder,
+      decoderMode: decoderMode,
     );
   }
 
@@ -163,6 +171,7 @@ class GetConnect extends GetConnectInterface {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
   }) {
     _checkIfDisposed();
     return httpClient.post<T>(
@@ -173,6 +182,7 @@ class GetConnect extends GetConnectInterface {
       query: query,
       decoder: decoder,
       uploadProgress: uploadProgress,
+      decoderMode: decoderMode,
     );
   }
 
@@ -185,6 +195,7 @@ class GetConnect extends GetConnectInterface {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
   }) {
     _checkIfDisposed();
     return httpClient.put<T>(
@@ -195,6 +206,7 @@ class GetConnect extends GetConnectInterface {
       query: query,
       decoder: decoder,
       uploadProgress: uploadProgress,
+      decoderMode: decoderMode,
     );
   }
 
@@ -207,6 +219,7 @@ class GetConnect extends GetConnectInterface {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
   }) {
     _checkIfDisposed();
     return httpClient.patch<T>(
@@ -217,6 +230,7 @@ class GetConnect extends GetConnectInterface {
       query: query,
       decoder: decoder,
       uploadProgress: uploadProgress,
+      decoderMode: decoderMode,
     );
   }
 
@@ -230,6 +244,7 @@ class GetConnect extends GetConnectInterface {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
   }) {
     _checkIfDisposed();
     return httpClient.request<T>(
@@ -241,6 +256,7 @@ class GetConnect extends GetConnectInterface {
       query: query,
       decoder: decoder,
       uploadProgress: uploadProgress,
+      decoderMode: decoderMode,
     );
   }
 
@@ -251,6 +267,7 @@ class GetConnect extends GetConnectInterface {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
+    DecoderMode decoderMode = DecoderMode.ALWAYS,
   }) {
     _checkIfDisposed();
     return httpClient.delete(
@@ -259,6 +276,7 @@ class GetConnect extends GetConnectInterface {
       contentType: contentType,
       query: query,
       decoder: decoder,
+      decoderMode: decoderMode,
     );
   }
 
